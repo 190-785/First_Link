@@ -5,3 +5,4 @@ export default defineConfig({
   plugins: [react()],
   base: 'https://github.com/190-785/First_Link/' 
 })
+
