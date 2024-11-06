@@ -8,7 +8,7 @@ import HomePage from './pages/HomePage'; // Import the new HomePage component
 
 function App() {
   return (
-    <Router>
+    <Router basename="/First_Link">  {/* Set basename to match GitHub Pages subpath */}
       <NavBar />
       <Routes>
         <Route path="/" element={<HomePage />} /> {/* Route for the home page */}
