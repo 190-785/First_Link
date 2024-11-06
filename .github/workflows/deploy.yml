@@ -1,32 +1,28 @@
-name: Deploy Vite App to GitHub Pages
+name: Deploy Workflow
 
 on:
   push:
     branches:
-      - main  # This workflow will run on pushes to the 'main' branch
+      - main
+  workflow_dispatch:  # Optional manual trigger
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out the code
-        uses: actions/checkout@v2
-        
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '22.4.0'  # Use the version that works with your project
+          node-version: '16.x'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build the project
-        run: npm run build  # This will generate the `dist` folder
+      - name: Build project
+        run: npm run build
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-
+      # Additional steps for deployment can go here
