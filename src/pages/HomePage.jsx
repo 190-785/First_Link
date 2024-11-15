@@ -9,6 +9,9 @@ const HomePage = () => {
   const [isLoading, setIsLoading] = useState(false); // Loading state
   const [isPathVisible, setIsPathVisible] = useState(false); // State to toggle path visibility
 
+  // Use the backend URL from environment variables
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -40,7 +43,7 @@ const HomePage = () => {
     console.log("Constructed Wikipedia URL:", wikiUrl);
 
     try {
-      const response = await axios.post('http://localhost:5000/start-traversal', {
+      const response = await axios.post(`${BACKEND_URL}/start-traversal`, {
         start_url: wikiUrl,
       });
 
@@ -68,9 +71,8 @@ const HomePage = () => {
         <p className="text-lg font-semibold mt-4">Processing...</p>
       ) : (
         <>
-          {/* Dynamic Margin for Heading */}
-          <h1 className={`text-5xl font-bold mb-${isPathVisible ? '10' : '6'} mt-6`}>
-            {isPathVisible ? 'Results' : 'Welcome to Link Rule!'}
+          <h1 className="text-5xl font-bold mb-6 mt-6">
+            Welcome to Link Rule!
           </h1>
           <p className="text-center max-w-xl text-lg p-6 bg-lightPurple rounded-lg shadow-md mb-4">
             Enter a Wikipedia page below to submit it for processing.
@@ -96,17 +98,11 @@ const HomePage = () => {
 
           {/* Display result if available */}
           {result && (
-            <div className={`mt-4 p-6 bg-lightPurple rounded-lg shadow-md transition-all duration-300 ${isPathVisible ? 'mb-4' : 'mb-0'}`}>
-              <h2 className={`text-2xl font-semibold mb-4 ${isPathVisible ? 'mt-4' : ''}`}>Scraping Results</h2>
+            <div className="mt-4 p-6 bg-lightPurple rounded-lg shadow-md">
+              <h2 className="text-2xl font-semibold mb-4">Scraping Results</h2>
               {result.error ? (
                 <>
                   <p className="text-red-500">{result.error}</p>
-                  <p className="text-gray-500">
-                    Loop detected at: 
-                    <a href={result.loop_link} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
-                      {result.loop_link}
-                    </a>
-                  </p>
                   <strong>Path Before Loop:</strong>
                   <ul className="list-disc pl-5">
                     {result.path.map((item, index) => (
@@ -135,32 +131,6 @@ const HomePage = () => {
                       </a>
                     }
                   </p>
-
-                  {/* Button to toggle path visibility */}
-                  <button 
-                    onClick={() => setIsPathVisible(!isPathVisible)} 
-                    className="flex items-center mt-2 text-darkPurple hover:text-mediumPurple"
-                  >
-                    <span className="material-icons">{isPathVisible ? 'arrow_drop_up' : 'arrow_drop_down'}</span>
-                    {isPathVisible ? 'Hide Path' : 'Show Path'}
-                  </button>
-
-                  {/* Display the path as clickable links */}
-                  {isPathVisible && (
-                    <div className="mt-4 max-h-60 overflow-y-auto">
-                      <strong className="mb-2 block">Path:</strong>
-                      <ul className="list-disc pl-5">
-                        {result.path.slice(1).map((item, index) => ( // Skip the original link in the path
-                          <li key={index}>
-                            <span className="font-bold">{index + 1}. </span> {/* Add path number */}
-                            <a href={item} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
-                              {item}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
                 </>
               )}
             </div>
