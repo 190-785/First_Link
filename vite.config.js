@@ -1,8 +1,9 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
 
 export default defineConfig({
-  plugins: [react()],
-  base: 'https://github.com/190-785/First_Link/' 
-})
-
+  build: {
+    outDir: 'dist',  // Ensure this is where you want the build to output
+    assetsDir: 'src',  // Optionally define the assets directory for JavaScript and CSS
+  },
+  base: '/',  // Correct base URL for GitHub Pages
+});
