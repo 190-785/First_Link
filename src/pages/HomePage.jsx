@@ -10,7 +10,7 @@ const HomePage = () => {
   const [isPathVisible, setIsPathVisible] = useState(false); // State to toggle path visibility
 
   // Use the backend URL from environment variables
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";  // Default for local dev
 
   const handleSubmit = async (e) => {
     e.preventDefault();
