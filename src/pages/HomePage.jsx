@@ -13,107 +13,18 @@ const formatSearchTerm = (term) => {
 };
 
 // Result Display Component
-const ResultDisplay = ({ result }) => {
-  const [isPathVisible, setIsPathVisible] = useState(false); // Toggle state for showing path
-
-  // Handle the toggle for showing/hiding the path
-  const togglePathVisibility = () => {
-    setIsPathVisible(!isPathVisible);
-  };
-
-  // Determine if the traversal didn't end in "Philosophy" or was limited by a loop
-  const getTraversalStatusMessage = () => {
-    if (result.error) {
-      return (
-        <p className="text-red-500 mt-4">
-          This traversal didn't reach "Philosophy" and encountered an error or
-          loop.
-        </p>
-      );
-    }
-
-    if (
-      result.path &&
-      result.path[result.path.length - 1] !== result.last_link
-    ) {
-      return (
-        <p className="text-red-500 mt-4">
-          This traversal didn't reach "Philosophy" and was limited by the number
-          of steps or loop detection.
-        </p>
-      );
-    }
-
-    return null;
-  };
-
-  return (
-    <div className="mt-4 p-6 bg-lightPurple rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold mb-4">Scraping Results</h2>
-
-      {/* Show message if traversal didn't reach Philosophy or encountered error */}
-      {getTraversalStatusMessage()}
-
-      <strong>Full Traversal Path:</strong>
-      <ul className="list-disc pl-5">
-        {result.path.map((item, index) => (
-          <li key={index}>
-            <span className="font-bold">{index + 1}.</span>
-            <a
-              href={item}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 underline"
-            >
-              {item}
-            </a>
-          </li>
-        ))}
-      </ul>
-
-      {/* Show message for the last link if we hit a limit or loop */}
-      {result.error && (
-        <p className="text-red-500 mt-4">
-          The traversal was stopped due to a loop or limit, and did not reach
-          the "Philosophy" page.
-        </p>
-      )}
-
-      {/* Show the last successful link if available */}
-      {result.last_link && (
+const ResultDisplay = ({ result }) => (
+  <div className="mt-4 p-6 bg-lightPurple rounded-lg shadow-md">
+    <h2 className="text-2xl font-semibold mb-4">Scraping Results</h2>
+    {result.error ? (
+      <>
+        <p className="text-red-500">{result.error}</p>
         <p>
-          <strong>Last Link (Philosophy):</strong>
-          <a
-            href={result.last_link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500 underline"
-          >
-            {result.last_link}
-          </a>
+          <strong>Link Path:</strong>
         </p>
-      )}
-
-      {/* Button to show intermediate steps */}
-      {result.path.length > 1 && (
-        <button
-          onClick={togglePathVisibility}
-          className="bg-mediumPurple text-white px-4 py-2 rounded-lg mt-4 hover:bg-darkPurple transition duration-200"
-          title={
-            isPathVisible
-              ? "Hide Intermediate Links"
-              : "Show Intermediate Links"
-          }
-        >
-          {isPathVisible ? "Hide" : "Show"} Intermediate Links
-        </button>
-      )}
-
-      {isPathVisible && result.path.length > 2 && (
-        <ul className="list-disc pl-5 mt-4">
-          {result.path.slice(1, -1).map((item, index) => (
+        <ul className="list-disc pl-5">
+          {result.path.map((item, index) => (
             <li key={index}>
-              <span className="font-bold">{index + 2}.</span>
               <a
                 href={item}
                 target="_blank"
@@ -125,10 +36,48 @@ const ResultDisplay = ({ result }) => {
             </li>
           ))}
         </ul>
-      )}
-    </div>
-  );
-};
+      </>
+    ) : (
+      <>
+        <p>
+          <strong>Original Link:</strong>
+          <a
+            href={result.path[0]}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 underline"
+          >
+            {result.path[0]}
+          </a>
+        </p>
+        <p>
+          <strong>Steps Taken:</strong> {result.steps}
+        </p>
+        <p>
+          <strong>Last Link (Philosophy):</strong>
+          {result.last_link && (
+            <a
+              href={result.last_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline"
+            >
+              {result.last_link}
+            </a>
+          )}
+        </p>
+      </>
+    )}
+  </div>
+);
+
+// Loading Spinner Component
+const LoadingSpinner = () => (
+  <div className="flex items-center justify-center">
+    <div className="w-16 h-16 border-4 border-t-4 border-mediumPurple border-solid rounded-full animate-spin"></div>
+    <p className="ml-4 text-lg text-darkPurple">Processing...</p>
+  </div>
+);
 
 const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -185,11 +134,50 @@ const HomePage = () => {
     }
   };
 
+  const handleFullTraversal = async () => {
+    if (!searchTerm) {
+      setError("Please enter a Wikipedia page.");
+      return;
+    }
+
+    setError("");
+    setSuccess("");
+    setResult(null); // Clear previous results
+    setIsLoading(true); // Start loading
+
+    const cleanSearchTerm = formatSearchTerm(searchTerm);
+    const wikiUrl = `https://en.wikipedia.org/wiki/${encodeURIComponent(
+      cleanSearchTerm
+    )}`;
+
+    try {
+      const response = await axios.post(`${BACKEND_URL}/start-traversal`, {
+        start_url: wikiUrl,
+      });
+
+      if (response.status === 200) {
+        setSuccess("Successfully started full traversal!");
+        setResult(response.data); // Store the response data in state
+      } else {
+        setError("Unexpected response from the backend.");
+      }
+    } catch (err) {
+      console.error(err);
+      const errorMessage =
+        err.response?.data?.message ||
+        err.message ||
+        "An error occurred while sending the URL to the backend.";
+      setError(errorMessage);
+    } finally {
+      setIsLoading(false); // Stop loading
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-palePurple text-darkPurple p-4 overflow-hidden">
       {/* Loading State Display */}
       {isLoading ? (
-        <p className="text-lg font-semibold mt-4">Processing...</p>
+        <LoadingSpinner />
       ) : (
         <>
           <h1 className="text-5xl font-bold mb-6 mt-6">
@@ -214,9 +202,8 @@ const HomePage = () => {
               type="submit"
               className="bg-mediumPurple text-white px-4 py-2 rounded-lg hover:bg-darkPurple transition duration-200"
               disabled={isLoading} // Disable button while loading
-              title="Submit the Wikipedia URL" // Tooltip for the button
             >
-              Submit
+              Start Full Traversal
             </button>
           </form>
           {error && <p className="text-red-500 mt-4">{error}</p>}
@@ -224,6 +211,15 @@ const HomePage = () => {
 
           {/* Display result if available */}
           {result && <ResultDisplay result={result} />}
+
+          {/* Full traversal button */}
+          <button
+            onClick={handleFullTraversal}
+            className="bg-darkPurple text-white px-6 py-2 rounded-lg mt-4 hover:bg-mediumPurple transition duration-200"
+            disabled={isLoading}
+          >
+            Start Full Traversal
+          </button>
         </>
       )}
     </div>
