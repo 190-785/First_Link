@@ -56,7 +56,7 @@ const ContactPage = () => {
           </div>
 
           {/* Email & Website (Centered on the bottom row) */}
-          <div className="sm:col-span-2 lg:col-span-1 flex justify-center gap-8">
+          <div className="sm:col-span-2 lg:col-span-1 flex justify-center gap-8 mt-6">
             {/* Email */}
             <div className="flex flex-col items-center">
               <a
