@@ -1,18 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-  <!-- Outer circle to represent the boundary of the process -->
-  <circle cx="50" cy="50" r="48" fill="#433878" />
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+  <!-- Background Circle -->
+  <circle cx="32" cy="32" r="30" fill="#433878" />
   
-  <!-- Inner circle to represent the start of the link journey -->
-  <circle cx="50" cy="50" r="35" fill="#7e60bf" />
+  <!-- Circular Arrow -->
+  <path 
+    d="M32,4C17.664,4,6,15.664,6,32c0,16.336,11.664,28,26,28s26-11.664,26-28C58,15.664,46.336,4,32,4z" 
+    fill="none" 
+    stroke="#7e60bf" 
+    stroke-width="3"
+    stroke-linecap="round" 
+    stroke-linejoin="round"
+  />
   
-  <!-- Representing a link with an arrow shape -->
-  <polygon points="50,30 60,50 50,70" fill="#e4b1f0" />
-  
-  <!-- Adding a small circle at the tail of the arrow to symbolize the path continuation -->
-  <circle cx="50" cy="70" r="5" fill="#ffe1ff" />
-  
-  <!-- Small text inside the circle to represent the idea of "Link" -->
-  <text x="50%" y="50%" font-size="12" text-anchor="middle" dy=".3em" fill="#ffe1ff" font-family="Arial, sans-serif">
-    ↗
-  </text>
+  <!-- Text -->
+  <text x="50%" y="50%" font-size="24" text-anchor="middle" fill="#e4b1f0" dy=".35em" font-family="Arial, sans-serif">LR</text>
 </svg>

@@ -2,13 +2,11 @@ import React from "react";
 
 const AboutPage = () => {
   return (
-    <div className="flex items-center justify-center h-auto bg-palePurple text-darkPurple p-4 sm:p-6">
-      <section className="bg-lightPurple p-6 rounded-xl shadow-lg max-w-3xl w-full space-y-6">
-        <h1 className="text-4xl font-extrabold text-center text-darkPurple mb-4 sm:text-5xl">
-          About This Project
-        </h1>
+    <div className="flex items-center justify-center h-screen bg-palePurple text-darkPurple p-4">
+      <section className="text-center max-w-3xl p-6 bg-lightPurple rounded-lg shadow-md">
+        <h1 className="text-3xl font-bold mb-4">About This Project</h1>
 
-        <p className="text-lg sm:text-xl text-center sm:text-left">
+        <p className="text-lg mb-4">
           Wikipedia's First Link Rule is a fascinating phenomenon where, when
           starting from any Wikipedia page, following the first link on each
           subsequent page (while avoiding any disambiguation pages), eventually
@@ -17,7 +15,7 @@ const AboutPage = () => {
           the foundation of the project that I built.
         </p>
 
-        <p className="text-lg sm:text-xl text-center sm:text-left">
+        <p className="text-lg mb-4">
           The idea behind this project is to automate that journey through
           Wikipedia using a web scraper. The goal is to start with a given
           Wikipedia page, find the first link on that page, follow that link,
@@ -26,7 +24,7 @@ const AboutPage = () => {
           the entire path of links, showing them how the First Link Rule works.
         </p>
 
-        <p className="text-lg sm:text-xl text-center sm:text-left">
+        <p className="text-lg mb-4">
           A key feature of this project is its ability to detect whether a link
           traversal ends in a loop. If the traversal encounters a cycle, the
           tool will notify the user, helping them understand whether the First
@@ -35,32 +33,32 @@ const AboutPage = () => {
           together.
         </p>
 
-        <p className="text-lg sm:text-xl text-center sm:text-left">
-          This project was heavily inspired by a YouTube video by{" "}
+        <p className="text-lg mb-4">
+          This project was heavily inspired by{" "}
           <a
             href="https://www.youtube.com/@not_David"
-            className="text-mediumPurple hover:text-darkPurple"
             target="_blank"
             rel="noopener noreferrer"
+            className="text-mediumPurple underline"
           >
-            Not David
-          </a>
-          , which explains the First Link Rule and its implications in an
+            Not David's
+          </a>{" "}
+          video which explains the First Link Rule and its implications in an
           interesting and entertaining way. I highly recommend checking out the
           video to understand the concept better and see the rule in action. You
-          can watch it here:{" "}
+          can watch it{" "}
           <a
             href="https://youtu.be/-llumS2rA8I?feature=shared"
-            className="text-mediumPurple hover:text-darkPurple"
             target="_blank"
             rel="noopener noreferrer"
+            className="text-mediumPurple underline"
           >
-            Not David's Video on YouTube
+            here
           </a>
           .
         </p>
 
-        <p className="text-lg sm:text-xl text-center sm:text-left">
+        <p className="text-lg mb-4">
           Throughout the development of this project, I built both the front-end
           and back-end to work seamlessly together. The front-end, built with
           React, allows users to enter a Wikipedia page and start the traversal.
@@ -70,7 +68,7 @@ const AboutPage = () => {
           the steps taken, including any errors and the full traversal path.
         </p>
 
-        <p className="text-lg sm:text-xl text-center sm:text-left">
+        <p className="text-lg mb-4">
           This project is still evolving! While it currently offers the core
           functionality of Wikipedia link traversal, I am continually improving
           it, adding new features, and refining its performance. Future
@@ -78,7 +76,7 @@ const AboutPage = () => {
           user-friendly, so stay tuned for more updates!
         </p>
 
-        <p className="text-lg sm:text-xl text-center sm:text-left">
+        <p className="text-lg">
           I invite you to explore the project and see for yourself how the First
           Link Rule works. Whether you're here to test the tool, learn about
           Wikipedia's fascinating first link chain, or discover if a link leads

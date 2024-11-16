@@ -2,76 +2,63 @@ import React from "react";
 
 const ContactPage = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-auto bg-palePurple text-darkPurple p-4 sm:p-6">
-      <h1 className="text-4xl font-extrabold text-center text-darkPurple mb-6 sm:text-5xl">
-        Contact Me
-      </h1>
-
-      <p className="text-center max-w-xl text-lg sm:text-xl p-6 bg-lightPurple rounded-lg shadow-md mb-8">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-palePurple text-darkPurple p-4">
+      <h1 className="text-4xl font-bold mb-6 text-center">Contact Me</h1>
+      <p className="text-center max-w-xl text-lg p-6 bg-lightPurple rounded-lg shadow-md mb-8">
         I would love to hear from you! Feel free to reach out through any of my
         social media platforms or contact me directly via email.
       </p>
-
-      <div className="mt-8 w-full max-w-3xl space-y-4">
-        <h2 className="text-2xl font-semibold text-center sm:text-left mb-4">
+      <div className="mt-8 w-full sm:w-3/4 lg:w-1/2">
+        <h2 className="text-2xl font-semibold mb-4 text-center">
           Connect with me:
         </h2>
         <ul className="space-y-4">
-          <li className="flex items-center justify-center sm:justify-start">
-            <span className="text-mediumPurple mr-2">Twitter:</span>
+          <li>
             <a
               href="https://x.com/190_785"
-              className="text-mediumPurple hover:text-gray-700"
+              className="text-mediumPurple hover:text-gray-700 block text-center"
               target="_blank"
               rel="noopener noreferrer"
             >
-              @190_785
+              Twitter
             </a>
           </li>
-
-          <li className="flex items-center justify-center sm:justify-start">
-            <span className="text-mediumPurple mr-2">LinkedIn:</span>
+          <li>
             <a
               href="https://in.linkedin.com/in/yash-agarwal-190e785"
-              className="text-mediumPurple hover:text-gray-700"
+              className="text-mediumPurple hover:text-gray-700 block text-center"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Yash Agarwal
+              LinkedIn
             </a>
           </li>
-
-          <li className="flex items-center justify-center sm:justify-start">
-            <span className="text-mediumPurple mr-2">GitHub:</span>
+          <li>
             <a
               href="https://github.com/190-785"
-              className="text-mediumPurple hover:text-gray-700"
+              className="text-mediumPurple hover:text-gray-700 block text-center"
               target="_blank"
               rel="noopener noreferrer"
             >
-              190-785
+              GitHub
             </a>
           </li>
-
-          <li className="flex items-center justify-center sm:justify-start">
-            <span className="text-mediumPurple mr-2">Website:</span>
+          <li>
             <a
               href="https://190e785.wordpress.com/"
-              className="text-mediumPurple hover:text-gray-700"
+              className="text-mediumPurple hover:text-gray-700 block text-center"
               target="_blank"
               rel="noopener noreferrer"
             >
-              190e785.wordpress.com
+              Website
             </a>
           </li>
-
-          <li className="flex items-center justify-center sm:justify-start">
-            <span className="text-mediumPurple mr-2">Email:</span>
+          <li>
             <a
               href="mailto:190e785@gmail.com"
-              className="text-mediumPurple hover:text-gray-700"
+              className="text-mediumPurple hover:text-gray-700 block text-center"
             >
-              190e785@gmail.com
+              Email
             </a>
           </li>
         </ul>
