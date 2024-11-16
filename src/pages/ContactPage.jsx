@@ -57,8 +57,8 @@ const ContactPage = () => {
           </div>
         </div>
 
-        {/* Bottom Row (Email & Website centered on larger screens) */}
-        <div className="mt-6 grid grid-cols-1 sm:grid-cols-1 gap-6 justify-center">
+        {/* Bottom Row (Email & Website aligned in a single row) */}
+        <div className="mt-6 flex justify-center space-x-8">
           {/* Email */}
           <div className="flex flex-col items-center">
             <a
