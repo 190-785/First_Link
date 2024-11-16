@@ -13,44 +13,93 @@ const formatSearchTerm = (term) => {
 };
 
 // Result Display Component
-const ResultDisplay = ({ result }) => (
-  <div className="mt-4 p-6 bg-lightPurple rounded-lg shadow-md">
-    <h2 className="text-2xl font-semibold mb-4">Scraping Results</h2>
-    {result.error ? (
-      <>
-        <p className="text-red-500">{result.error}</p>
-        <strong>Path Before Loop:</strong>
-        <ul className="list-disc pl-5">
-          {result.path.map((item, index) => (
-            <li key={index}>
-              <a href={item} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
-                {item}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </>
-    ) : (
-      <>
-        <p>
-          <strong>Original Link:</strong> 
-          <a href={result.path[0]} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
-            {result.path[0]}
-          </a>
-        </p>
-        <p><strong>Steps Taken:</strong> {result.steps}</p>
-        <p>
-          <strong>Last Link (Philosophy):</strong> 
-          {result.last_link && 
-            <a href={result.last_link} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
-              {result.last_link}
+const ResultDisplay = ({ result }) => {
+  const [isPathVisible, setIsPathVisible] = useState(false); // Toggle state for showing path
+  const [showLastLinkBeforePhilosophy, setShowLastLinkBeforePhilosophy] = useState(false);
+
+  // Handle the toggle for showing/hiding the path
+  const togglePathVisibility = () => {
+    setIsPathVisible(!isPathVisible);
+  };
+
+  // Determine if the traversal didn't end in a loop
+  const getLastLinkBeforePhilosophy = () => {
+    if (result.error && result.path.length > 1) {
+      const lastLinkBeforePhilosophy = result.path[result.path.length - 2];
+      return lastLinkBeforePhilosophy ? (
+        <p><strong>Last Link Before Philosophy:</strong> <a href={lastLinkBeforePhilosophy} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">{lastLinkBeforePhilosophy}</a></p>
+      ) : null;
+    }
+    return null;
+  };
+
+  return (
+    <div className="mt-4 p-6 bg-lightPurple rounded-lg shadow-md">
+      <h2 className="text-2xl font-semibold mb-4">Scraping Results</h2>
+      {result.error ? (
+        <>
+          <p className="text-red-500">{result.error}</p>
+          <strong>Path Before Loop:</strong>
+          <ul className="list-disc pl-5">
+            {result.path.map((item, index) => (
+              <li key={index}>
+                <span className="font-bold">{index + 1}.</span> 
+                <a href={item} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                  {item}
+                </a>
+              </li>
+            ))}
+          </ul>
+          {getLastLinkBeforePhilosophy()}
+        </>
+      ) : (
+        <>
+          <p>
+            <strong>Original Link:</strong>
+            <a href={result.path[0]} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+              {result.path[0]}
             </a>
-          }
-        </p>
-      </>
-    )}
-  </div>
-);
+          </p>
+          <p><strong>Steps Taken:</strong> {result.steps}</p>
+          <p>
+            <strong>Last Link (Philosophy):</strong>
+            {result.last_link && (
+              <a href={result.last_link} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                {result.last_link}
+              </a>
+            )}
+          </p>
+
+          {/* Intermediate Links Section */}
+          {result.path && result.path.length > 1 && (
+            <>
+              <button
+                onClick={togglePathVisibility}
+                className="bg-mediumPurple text-white px-4 py-2 rounded-lg mt-4 hover:bg-darkPurple transition duration-200"
+              >
+                {isPathVisible ? 'Hide' : 'Show'} Intermediate Links
+              </button>
+
+              {isPathVisible && (
+                <ul className="list-disc pl-5 mt-4">
+                  {result.path.slice(1, -1).map((item, index) => (
+                    <li key={index}>
+                      <span className="font-bold">{index + 2}.</span> 
+                      <a href={item} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                        {item}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </>
+          )}
+          {getLastLinkBeforePhilosophy()}
+        </>
+      )}
+    </div>
+  );
+};
 
 const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -58,7 +107,6 @@ const HomePage = () => {
   const [success, setSuccess] = useState('');
   const [result, setResult] = useState(null); // State for storing backend response
   const [isLoading, setIsLoading] = useState(false); // Loading state
-  const [isPathVisible, setIsPathVisible] = useState(false); // State to toggle path visibility
 
   // Use the backend URL from environment variables
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";  // Default for local dev
