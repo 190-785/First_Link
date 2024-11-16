@@ -55,32 +55,35 @@ const ContactPage = () => {
             </span>
           </div>
 
-          {/* Email */}
-          <div className="flex flex-col items-center">
-            <a
-              href="mailto:190e785@gmail.com"
-              className="text-mediumPurple text-lg mb-2 hover:underline"
-            >
-              Email
-            </a>
-            <span className="text-sm text-gray-500 break-words">
-              190e785@gmail.com
-            </span>
-          </div>
+          {/* Email & Website (Centered on the bottom row) */}
+          <div className="sm:col-span-2 lg:col-span-1 flex justify-center gap-8">
+            {/* Email */}
+            <div className="flex flex-col items-center">
+              <a
+                href="mailto:190e785@gmail.com"
+                className="text-mediumPurple text-lg mb-2 hover:underline"
+              >
+                Email
+              </a>
+              <span className="text-sm text-gray-500 break-words">
+                190e785@gmail.com
+              </span>
+            </div>
 
-          {/* Website */}
-          <div className="flex flex-col items-center">
-            <a
-              href="https://190e785.wordpress.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-mediumPurple text-lg mb-2 hover:underline"
-            >
-              Website
-            </a>
-            <span className="text-sm text-gray-500 break-words">
-              https://190e785.wordpress.com/
-            </span>
+            {/* Website */}
+            <div className="flex flex-col items-center">
+              <a
+                href="https://190e785.wordpress.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-mediumPurple text-lg mb-2 hover:underline"
+              >
+                Website
+              </a>
+              <span className="text-sm text-gray-500 break-words">
+                https://190e785.wordpress.com/
+              </span>
+            </div>
           </div>
         </div>
       </section>
