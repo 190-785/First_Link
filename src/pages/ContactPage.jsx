@@ -58,9 +58,9 @@ const ContactPage = () => {
         </div>
 
         {/* Bottom Row (Email & Website centered on larger screens) */}
-        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-8 justify-center lg:justify-between">
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-1 gap-6 justify-center">
           {/* Email */}
-          <div className="flex flex-col items-center max-w-full">
+          <div className="flex flex-col items-center">
             <a
               href="mailto:190e785@gmail.com"
               className="text-mediumPurple text-lg mb-2 hover:underline"
@@ -73,7 +73,7 @@ const ContactPage = () => {
           </div>
 
           {/* Website */}
-          <div className="flex flex-col items-center max-w-full">
+          <div className="flex flex-col items-center">
             <a
               href="https://190e785.wordpress.com/"
               target="_blank"
