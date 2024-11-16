@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 const ContactPage = () => {
   return (
@@ -12,27 +11,27 @@ const ContactPage = () => {
         <h2 className="text-2xl font-semibold mb-4">Connect with me:</h2>
         <ul className="space-y-2">
           <li>
-            <a href="https://twitter.com/your_username" className="text-mediumPurple hover:text-gray-700" target="_blank" rel="noopener noreferrer">
+            <a href="https://x.com/190_785" className="text-mediumPurple hover:text-gray-700" target="_blank" rel="noopener noreferrer">
               Twitter
             </a>
           </li>
           <li>
-            <a href="https://linkedin.com/in/your_username" className="text-mediumPurple hover:text-gray-700" target="_blank" rel="noopener noreferrer">
+            <a href="https://in.linkedin.com/in/yash-agarwal-190e785" className="text-mediumPurple hover:text-gray-700" target="_blank" rel="noopener noreferrer">
               LinkedIn
             </a>
           </li>
           <li>
-            <a href="https://github.com/your_username" className="text-mediumPurple hover:text-gray-700" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/190-785" className="text-mediumPurple hover:text-gray-700" target="_blank" rel="noopener noreferrer">
               GitHub
             </a>
           </li>
           <li>
-            <a href="https://yourwebsite.com" className="text-mediumPurple hover:text-gray-700" target="_blank" rel="noopener noreferrer">
+            <a href="https://190e785.wordpress.com/" className="text-mediumPurple hover:text-gray-700" target="_blank" rel="noopener noreferrer">
               Website
             </a>
           </li>
           <li>
-            <a href="mailto:your_email@example.com" className="text-mediumPurple hover:text-gray-700">
+            <a href="mailto:190e785@gmail.com" className="text-mediumPurple hover:text-gray-700">
               Email
             </a>
           </li>

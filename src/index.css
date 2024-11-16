@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Define the spinner animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Spinner style */
+  .spinner {
+    border-top: 4px solid #7e60bf; /* Customize the color */
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 4px solid transparent;
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+    animation: spin 1s linear infinite;
+  }
+  
