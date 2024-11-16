@@ -58,7 +58,7 @@ const ContactPage = () => {
           {/* Email & Website (Centered on the bottom row) */}
           <div className="sm:col-span-2 lg:col-span-1 flex justify-center gap-8 mt-6">
             {/* Email */}
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center max-w-full">
               <a
                 href="mailto:190e785@gmail.com"
                 className="text-mediumPurple text-lg mb-2 hover:underline"
@@ -71,7 +71,7 @@ const ContactPage = () => {
             </div>
 
             {/* Website */}
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center max-w-full">
               <a
                 href="https://190e785.wordpress.com/"
                 target="_blank"
