@@ -9,7 +9,7 @@ const ContactPage = () => {
           Feel free to get in touch with me through the following platforms:
         </p>
 
-        <div className="flex flex-col sm:flex-row justify-center gap-6 sm:gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {/* GitHub */}
           <div className="flex flex-col items-center">
             <a
