@@ -9,6 +9,7 @@ const ContactPage = () => {
           Feel free to get in touch with me through the following platforms:
         </p>
 
+        {/* Main Grid Layout */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {/* GitHub */}
           <div className="flex flex-col items-center">
@@ -54,36 +55,36 @@ const ContactPage = () => {
               https://in.linkedin.com/in/yash-agarwal-190e785
             </span>
           </div>
+        </div>
 
-          {/* Email & Website (Centered on the bottom row) */}
-          <div className="sm:col-span-2 lg:col-span-1 flex justify-center gap-8 mt-6">
-            {/* Email */}
-            <div className="flex flex-col items-center max-w-full">
-              <a
-                href="mailto:190e785@gmail.com"
-                className="text-mediumPurple text-lg mb-2 hover:underline"
-              >
-                Email
-              </a>
-              <span className="text-sm text-gray-500 break-words">
-                190e785@gmail.com
-              </span>
-            </div>
+        {/* Bottom Row (Email & Website centered on larger screens) */}
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-8 justify-center lg:justify-between">
+          {/* Email */}
+          <div className="flex flex-col items-center max-w-full">
+            <a
+              href="mailto:190e785@gmail.com"
+              className="text-mediumPurple text-lg mb-2 hover:underline"
+            >
+              Email
+            </a>
+            <span className="text-sm text-gray-500 break-words">
+              190e785@gmail.com
+            </span>
+          </div>
 
-            {/* Website */}
-            <div className="flex flex-col items-center max-w-full">
-              <a
-                href="https://190e785.wordpress.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-mediumPurple text-lg mb-2 hover:underline"
-              >
-                Website
-              </a>
-              <span className="text-sm text-gray-500 break-words">
-                https://190e785.wordpress.com/
-              </span>
-            </div>
+          {/* Website */}
+          <div className="flex flex-col items-center max-w-full">
+            <a
+              href="https://190e785.wordpress.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-mediumPurple text-lg mb-2 hover:underline"
+            >
+              Website
+            </a>
+            <span className="text-sm text-gray-500 break-words">
+              https://190e785.wordpress.com/
+            </span>
           </div>
         </div>
       </section>
