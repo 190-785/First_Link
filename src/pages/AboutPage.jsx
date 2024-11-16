@@ -6,19 +6,25 @@ const AboutPage = () => {
       <section className="text-center max-w-xl p-6 bg-lightPurple rounded-lg shadow-md">
         <h1 className="text-3xl font-bold mb-6">About This Project</h1>
         <p className="text-lg mb-4">
-          Building this project has been a journey of learning, experimenting, and overcoming challenges. From day one, I set out to create an intuitive, fully functional web application that showcases the intersection of web development, backend processing, and data retrieval techniques. The goal was not only to build a tool that works but to create a seamless experience that users can easily interact with.
+          Wikipedia's First Link Rule is a fascinating phenomenon where, when starting from any Wikipedia page, following the first link on each subsequent page (while avoiding any disambiguation pages), eventually leads you to the "Philosophy" page. This chain of links creates an interesting and unexpected journey through Wikipedia articles, and is the foundation of the project that I built.
         </p>
         <p className="text-lg mb-4">
-          This project started as a simple idea, inspired by a YouTube video by <a href="https://www.youtube.com/@not_David" className="text-mediumPurple hover:text-darkPurple" target="_blank" rel="noopener noreferrer">Not David</a>, which fueled my passion for taking on complex projects and solving real-world problems with code. The video served as a catalyst for the development of this tool, which started as a simple idea and evolved into a robust platform capable of traversing Wikipedia pages to find meaningful connections.
+          The idea behind this project is to automate that journey through Wikipedia using a web scraper. The goal is to start with a given Wikipedia page, find the first link on that page, follow that link, and continue the process until reaching the "Philosophy" page. My project allows users to input any Wikipedia page, and it will trace the entire path of links, showing them how the First Link Rule works.
         </p>
         <p className="text-lg mb-4">
-          Throughout the process, I encountered several obstacles—from fine-tuning the backend to handling edge cases in the scraping algorithm. However, these challenges have shaped the way I approach problem-solving and have helped me grow as a developer. The final product is not just a tool, but a reflection of my journey through learning modern web technologies, experimenting with new techniques, and embracing the iterative process of development.
+          A key feature of this project is its ability to detect whether a link traversal ends in a loop. If the traversal encounters a cycle, the tool will notify the user, helping them understand whether the First Link Rule applies or if the journey is stuck in a loop. This ensures that users can better track and understand how Wikipedia pages link together.
         </p>
         <p className="text-lg mb-4">
-          One of the most rewarding parts of this project has been integrating the frontend and backend seamlessly. With React at the heart of the frontend, paired with powerful backend technologies, I’ve been able to create a user-friendly interface that responds in real time while handling complex data retrieval tasks behind the scenes. I also took great care in designing an accessible, visually appealing UI that reflects my personal taste, using my favorite color palette.
+          This project was heavily inspired by a YouTube video by <a href="https://www.youtube.com/@not_David" className="text-mediumPurple hover:text-darkPurple" target="_blank" rel="noopener noreferrer">Not David</a>, which explains the First Link Rule and its implications in an interesting and entertaining way. I highly recommend checking out the video to understand the concept better and see the rule in action. You can watch it here: <a href="https://youtu.be/-llumS2rA8I?feature=shared" className="text-mediumPurple hover:text-darkPurple" target="_blank" rel="noopener noreferrer">Not David's Video on YouTube</a>.
         </p>
         <p className="text-lg mb-4">
-          But this project is more than just code—it’s about the journey. It’s about how I’ve evolved as a developer, learning new skills in real-world applications, tackling challenges head-on, and improving my understanding of both front-end and back-end technologies. It's about sharing the learning process, and I hope this project inspires others as much as it has inspired me.
+          Throughout the development of this project, I built both the front-end and back-end to work seamlessly together. The front-end, built with React, allows users to enter a Wikipedia page and start the traversal. The back-end handles the scraping logic, tracks the path taken, and checks for loops. I also made sure to focus on user experience by designing a clean, intuitive interface that allows users to easily see the steps taken, including any errors and the full traversal path.
+        </p>
+        <p className="text-lg mb-4">
+          This project is still evolving! While it currently offers the core functionality of Wikipedia link traversal, I am continually improving it, adding new features, and refining its performance. Future improvements will aim to make the project even more robust and user-friendly, so stay tuned for more updates!
+        </p>
+        <p className="text-lg">
+          I invite you to explore the project and see for yourself how the First Link Rule works. Whether you're here to test the tool, learn about Wikipedia's fascinating first link chain, or discover if a link leads to a loop, I hope this project offers something interesting for you!
         </p>
       </section>
     </div>
