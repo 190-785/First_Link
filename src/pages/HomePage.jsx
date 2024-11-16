@@ -1,56 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-
-// Helper function to clean the search term
-const formatSearchTerm = (term) => {
-  let formattedTerm = term.trim();
-  if (formattedTerm.startsWith("https://en.wikipedia.org/wiki/")) {
-    formattedTerm = formattedTerm.replace("https://en.wikipedia.org/wiki/", "");
-  } else if (formattedTerm.startsWith("http://en.wikipedia.org/wiki/")) {
-    formattedTerm = formattedTerm.replace("http://en.wikipedia.org/wiki/", "");
-  }
-  return formattedTerm.replace(/^\/+/, ''); // Clean up leading slashes
-};
-
-// Component to display the result
-const ResultDisplay = ({ result }) => (
-  <div className="mt-4 p-6 bg-lightPurple rounded-lg shadow-md">
-    <h2 className="text-2xl font-semibold mb-4">Scraping Results</h2>
-    {result.error ? (
-      <>
-        <p className="text-red-500">{result.error}</p>
-        <strong>Path Before Loop:</strong>
-        <ul className="list-disc pl-5">
-          {result.path.map((item, index) => (
-            <li key={index}>
-              <a href={item} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
-                {item}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </>
-    ) : (
-      <>
-        <p>
-          <strong>Original Link:</strong> 
-          <a href={result.path[0]} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
-            {result.path[0]}
-          </a>
-        </p>
-        <p><strong>Steps Taken:</strong> {result.steps}</p>
-        <p>
-          <strong>Last Link (Philosophy):</strong> 
-          {result.last_link && 
-            <a href={result.last_link} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
-              {result.last_link}
-            </a>
-          }
-        </p>
-      </>
-    )}
-  </div>
-);
 
 const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -76,14 +25,25 @@ const HomePage = () => {
     setResult(null); // Clear previous results
     setIsLoading(true); // Start loading
 
-    const cleanSearchTerm = formatSearchTerm(searchTerm);
-    const wikiUrl = `https://en.wikipedia.org/wiki/${encodeURIComponent(cleanSearchTerm)}`;
+    // Clean the search term and ensure proper formatting
+    let cleanSearchTerm = searchTerm.trim();
+    if (cleanSearchTerm.startsWith("https://en.wikipedia.org/wiki/")) {
+      cleanSearchTerm = cleanSearchTerm.replace("https://en.wikipedia.org/wiki/", "");
+    } else if (cleanSearchTerm.startsWith("http://en.wikipedia.org/wiki/")) {
+      cleanSearchTerm = cleanSearchTerm.replace("http://en.wikipedia.org/wiki/", "");
+    }
+
+    // Ensure the term does not have leading slashes
+    cleanSearchTerm = cleanSearchTerm.replace(/^\/+/, '');
+
+    const formattedTerm = encodeURIComponent(cleanSearchTerm);
+    const wikiUrl = https://en.wikipedia.org/wiki/${formattedTerm};
 
     // Log the constructed URL for debugging purposes
     console.log("Constructed Wikipedia URL:", wikiUrl);
 
     try {
-      const response = await axios.post(`${BACKEND_URL}/start-traversal`, {
+      const response = await axios.post(${BACKEND_URL}/start-traversal, {
         start_url: wikiUrl,
       });
 
@@ -95,26 +55,14 @@ const HomePage = () => {
       }
     } catch (err) {
       console.error(err);
-      const errorMessage =
+      setError(
         err.response?.data?.message ||
-        err.message ||
-        'An error occurred while sending the URL to the backend.';
-      setError(errorMessage);
+        'An error occurred while sending the URL to the backend.'
+      );
     } finally {
       setIsLoading(false); // Stop loading
     }
   };
-
-  // Debounce input to avoid sending multiple requests
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (searchTerm) {
-        handleSubmit(); // Trigger submit after debounce time
-      }
-    }, 500); // 500ms debounce time
-
-    return () => clearTimeout(timeoutId); // Cleanup previous timeout
-  }, [searchTerm]); // Only trigger when searchTerm changes
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-palePurple text-darkPurple p-4 overflow-hidden">
@@ -136,7 +84,6 @@ const HomePage = () => {
               placeholder="Search Wikipedia..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              disabled={isLoading} // Disable input while loading
             />
             <button
               type="submit"
@@ -150,11 +97,48 @@ const HomePage = () => {
           {success && <p className="text-green-500 mt-4">{success}</p>}
 
           {/* Display result if available */}
-          {result && <ResultDisplay result={result} />}
+          {result && (
+            <div className="mt-4 p-6 bg-lightPurple rounded-lg shadow-md">
+              <h2 className="text-2xl font-semibold mb-4">Scraping Results</h2>
+              {result.error ? (
+                <>
+                  <p className="text-red-500">{result.error}</p>
+                  <strong>Path Before Loop:</strong>
+                  <ul className="list-disc pl-5">
+                    {result.path.map((item, index) => (
+                      <li key={index}>
+                        <a href={item} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                          {item}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <>
+                  <p>
+                    <strong>Original Link:</strong> 
+                    <a href={result.path[0]} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                      {result.path[0]}
+                    </a>
+                  </p>
+                  <p><strong>Steps Taken:</strong> {result.steps}</p>
+                  <p>
+                    <strong>Last Link (Philosophy):</strong> 
+                    {result.last_link && 
+                      <a href={result.last_link} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                        {result.last_link}
+                      </a>
+                    }
+                  </p>
+                </>
+              )}
+            </div>
+          )}
         </>
       )}
     </div>
   );
 };
 
-export default HomePage;
+export default HomePage; 
