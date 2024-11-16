@@ -141,24 +141,25 @@ const HomePage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-palePurple text-darkPurple p-4 overflow-hidden">
+    <div className="flex flex-col items-center justify-center h-auto bg-palePurple text-darkPurple p-4 overflow-hidden">
       {isLoading ? (
         <LoadingSpinner />
       ) : (
         <>
-          <h1 className="text-5xl font-bold mb-6 mt-6">
+          <h1 className="text-4xl sm:text-5xl font-bold mb-6 mt-6 text-center">
             Welcome to Link Rule!
           </h1>
-          <p className="text-center max-w-xl text-lg p-6 bg-lightPurple rounded-lg shadow-md mb-4">
+          <p className="text-center max-w-xl text-lg sm:text-xl p-6 bg-lightPurple rounded-lg shadow-md mb-4">
             Enter a Wikipedia page below to submit it for processing.
           </p>
+
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col md:flex-row mb-4 w-full max-w-lg"
+            className="flex flex-col sm:flex-row items-center mb-4 w-full max-w-lg"
           >
             <input
               type="text"
-              className="border border-mediumPurple p-2 rounded-lg mb-2 md:mb-0 md:mr-2 flex-grow"
+              className="border border-mediumPurple p-2 rounded-lg mb-2 sm:mb-0 sm:mr-2 flex-grow"
               placeholder="Search Wikipedia..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -166,12 +167,13 @@ const HomePage = () => {
             />
             <button
               type="submit"
-              className="bg-mediumPurple text-white px-4 py-2 rounded-lg hover:bg-darkPurple transition duration-200"
+              className="bg-mediumPurple text-white px-6 py-2 rounded-lg mt-2 sm:mt-0 hover:bg-darkPurple transition duration-200"
               disabled={isLoading} // Disable button while loading
             >
               Start Traversal
             </button>
           </form>
+
           {error && <p className="text-red-500 mt-4">{error}</p>}
           {success && <p className="text-green-500 mt-4">{success}</p>}
 
