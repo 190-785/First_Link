@@ -3,36 +3,42 @@ import React from "react";
 const AboutPage = () => {
   return (
     <div className="min-h-screen flex flex-col bg-palePurple text-darkPurple">
+      {/* Section to display the About Page content */}
       <section className="flex-grow max-w-3xl p-6 bg-lightPurple rounded-lg shadow-md w-full sm:w-10/12 md:w-8/12 lg:w-7/12 xl:w-6/12 mx-auto">
         <h1 className="text-3xl font-bold mb-6 text-center">
           About This Project
         </h1>
+
+        {/* Introduction to the First Link Rule */}
         <p className="text-lg mb-4">
-          Wikipedia's First Link Rule is a fascinating phenomenon where, when
-          starting from any Wikipedia page, following the first link on each
-          subsequent page (while avoiding any disambiguation pages), eventually
-          leads you to the "Philosophy" page. This chain of links creates an
-          interesting and unexpected journey through Wikipedia articles, and is
-          the foundation of the project that I built.
+          The "First Link Rule" is a fascinating phenomenon in Wikipedia, where
+          if you start from any Wikipedia page and follow the first link on each
+          subsequent page, you will eventually reach the "Philosophy" page. This
+          unexpected journey through a series of Wikipedia articles inspired the
+          creation of this project.
         </p>
+
+        {/* Explanation of the project's functionality */}
         <p className="text-lg mb-4">
-          The idea behind this project is to automate that journey through
-          Wikipedia using a web scraper. The goal is to start with a given
-          Wikipedia page, find the first link on that page, follow that link,
-          and continue the process until reaching the "Philosophy" page. My
-          project allows users to input any Wikipedia page, and it will trace
-          the entire path of links, showing them how the First Link Rule works.
+          This project automates the First Link Rule journey through Wikipedia
+          using a web scraper. By entering any Wikipedia page URL, the project
+          will trace the first link on each page and continue this process until
+          it reaches the "Philosophy" page. The goal is to help users visualize
+          how the First Link Rule operates.
         </p>
+
+        {/* Explanation of loop detection feature */}
         <p className="text-lg mb-4">
-          A key feature of this project is its ability to detect whether a link
-          traversal ends in a loop. If the traversal encounters a cycle, the
-          tool will notify the user, helping them understand whether the First
-          Link Rule applies or if the journey is stuck in a loop. This ensures
-          that users can better track and understand how Wikipedia pages link
-          together.
+          One important feature of this project is its ability to detect when a
+          link traversal ends in a loop. If the scraper encounters a cycle or
+          infinite loop in the links, it will notify the user. This ensures that
+          the tool identifies whether the First Link Rule leads to the
+          Philosophy page or if the link traversal is stuck in a loop.
         </p>
+
+        {/* Acknowledgment of the inspiration */}
         <p className="text-lg mb-4">
-          This project was heavily inspired by{" "}
+          This project was inspired by{" "}
           <a
             href="https://www.youtube.com/@not_David"
             target="_blank"
@@ -41,10 +47,9 @@ const AboutPage = () => {
           >
             Not David's video
           </a>{" "}
-          which explains the First Link Rule and its implications in an
-          interesting and entertaining way. I highly recommend checking out the
-          video to understand the concept better and see the rule in action. You
-          can watch it{" "}
+          that explains the First Link Rule in an engaging and insightful way. I
+          recommend watching the video for a deeper understanding of the concept
+          and to see the rule in action. You can check it out{" "}
           <a
             href="https://youtu.be/-llumS2rA8I?feature=shared"
             target="_blank"
@@ -55,27 +60,33 @@ const AboutPage = () => {
           </a>
           .
         </p>
+
+        {/* Details about the development process */}
         <p className="text-lg mb-4">
-          Throughout the development of this project, I built both the front-end
-          and back-end to work seamlessly together. The front-end, built with
-          React, allows users to enter a Wikipedia page and start the traversal.
-          The back-end handles the scraping logic, tracks the path taken, and
-          checks for loops. I also made sure to focus on user experience by
-          designing a clean, intuitive interface that allows users to easily see
-          the steps taken, including any errors and the full traversal path.
+          I built this project with both front-end and back-end components
+          working seamlessly together. The front-end, powered by React, provides
+          a simple interface for users to enter a Wikipedia page and start the
+          link traversal process. The back-end handles the web scraping, path
+          tracking, and loop detection. The interface is designed for a clean,
+          user-friendly experience, showing users the steps taken, any errors
+          encountered, and the full traversal path.
         </p>
+
+        {/* Future plans for the project */}
         <p className="text-lg mb-4">
-          This project is still evolving! While it currently offers the core
-          functionality of Wikipedia link traversal, I am continually improving
-          it, adding new features, and refining its performance. Future
-          improvements will aim to make the project even more robust and
-          user-friendly, so stay tuned for more updates!
+          This project is a work in progress! While the core functionality of
+          Wikipedia link traversal is complete, I continue to refine the project
+          by adding new features, improving performance, and enhancing the user
+          experience. Future updates will aim to make the tool even more robust
+          and enjoyable to use.
         </p>
+
+        {/* Invitation to explore the project */}
         <p className="text-lg mb-4">
-          I invite you to explore the project and see for yourself how the First
-          Link Rule works. Whether you're here to test the tool, learn about
-          Wikipedia's fascinating first link chain, or discover if a link leads
-          to a loop, I hope this project offers something interesting for you!
+          I invite you to explore the project yourself! Whether you're here to
+          test the tool, learn more about the fascinating First Link Rule, or
+          discover if a Wikipedia link leads to a loop, I hope this project
+          offers something interesting and useful for you.
         </p>
       </section>
     </div>
