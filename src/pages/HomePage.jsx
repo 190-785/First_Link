@@ -215,7 +215,7 @@ const HomePage = () => {
           {error && <p className="text-red-500 mt-4">{error}</p>}
           {success && <p className="text-green-500 mt-4">{success}</p>}
 
-          {/* Display results if available */}
+          {/* Display result */}
           {result && (
             <ResultDisplay
               result={result}
