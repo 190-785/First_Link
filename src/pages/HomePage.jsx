@@ -139,7 +139,7 @@ const HomePage = () => {
     const wikiUrl = `https://en.wikipedia.org/wiki/${encodeURIComponent(
       cleanSearchTerm
     )}`;
-
+    console.log(wikiUrl);
     try {
       const response = await axios.post(`${BACKEND_URL}/start-traversal`, {
         start_url: wikiUrl,
