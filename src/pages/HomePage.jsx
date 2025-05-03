@@ -19,9 +19,60 @@ const ResultDisplay = ({ result, onToggleFullPath }) => (
     <h2 className="text-2xl font-semibold mb-4">Traversal Results</h2>
     {result.error ? (
       <>
-        {/* Show error message if there was an issue during traversal */}
-        <p className="text-red-500">{result.error}</p>
-        <p>
+        {/* Display specific error message based on error_type */}
+        {result.error_type === "loop" && (
+          <p className="text-red-500">
+            <strong>Loop Detected:</strong> The traversal encountered a loop at{" "}
+            <a
+              href={result.last_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline"
+            >
+              {result.last_link}
+            </a>
+            .
+          </p>
+        )}
+        {result.error_type === "no_valid_link" && (
+          <p className="text-red-500">
+            <strong>No Valid Link Found:</strong> The traversal could not find a
+            valid next link on the page{" "}
+            <a
+              href={result.last_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline"
+            >
+              {result.last_link}
+            </a>
+            .
+          </p>
+        )}
+        {result.error_type === "max_iterations_reached" && (
+          <p className="text-red-500">
+            <strong>Maximum Iterations Reached:</strong> The traversal reached the
+            maximum number of steps without finding the Philosophy page.
+          </p>
+        )}
+        {result.error_type === "server_error" && (
+          <p className="text-red-500">
+            <strong>Server Error:</strong> An unexpected error occurred on the
+            backend: {result.error}
+          </p>
+        )}
+        {result.error_type === "invalid_url" && (
+          <p className="text-red-500">
+            <strong>Invalid Wikipedia URL:</strong> Please enter a valid
+            Wikipedia URL.
+          </p>
+        )}
+        {!result.error_type && (
+          <p className="text-red-500">
+            <strong>Error:</strong> {result.error}
+          </p>
+        )}
+        <p className="mt-2">
           <strong>Link Path:</strong>
         </p>
         <ul className="list-disc pl-5">
@@ -106,7 +157,7 @@ const ResultDisplay = ({ result, onToggleFullPath }) => (
 // Loading Spinner Component
 const LoadingSpinner = () => (
   <div className="flex items-center justify-center">
-    <div className="spinner"></div> {/* Custom spinner class */}
+    <div className="spinner"></div> {/* Custom spinner class (ensure you have CSS for this) */}
     <p className="ml-4 text-lg text-darkPurple">Processing...</p>
   </div>
 );
@@ -153,11 +204,21 @@ const HomePage = () => {
         });
       } else {
         setError("Unexpected response from the backend.");
+        setResult(response.data); // Still set result to potentially show the path
       }
     } catch (err) {
       console.error(err);
-      const errorMessage =
-        err.response?.data?.message || err.message || "An error occurred";
+      let errorMessage = "An error occurred during the traversal.";
+      let backendErrorData = null;
+      if (err.response && err.response.data) {
+        backendErrorData = err.response.data;
+        if (backendErrorData.error) {
+          errorMessage = backendErrorData.error;
+        }
+        setResult({ ...backendErrorData, showFullPath: false }); // Set result to display path and error details
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
       setError(errorMessage);
     } finally {
       setIsLoading(false); // Stop loading
