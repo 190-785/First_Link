@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useBedrockPassport, LoginPanel } from "@bedrock_org/passport";
+import "@bedrock_org/passport/dist/style.css";
+
 
 // Helper function to clean and format the search term
 const formatSearchTerm = (term) => {
@@ -163,78 +166,81 @@ const LoadingSpinner = () => (
 );
 
 const HomePage = () => {
+  const { isLoggedIn, signOut, user } = useBedrockPassport();
   const [searchTerm, setSearchTerm] = useState("");
+  const [result, setResult] = useState(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [result, setResult] = useState(null); // State for storing backend response
-  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [isLoading, setIsLoading] = useState(false);
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
-  const BACKEND_URL =
-    import.meta.env.VITE_BACKEND_URL || "http://localhost:5000"; // Default for local dev
-
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!searchTerm) {
       setError("Please enter a Wikipedia page link.");
       return;
     }
-
-    setError("");
-    setSuccess("");
-    setResult(null); // Clear previous results
-    setIsLoading(true); // Start loading state
-
-    const cleanSearchTerm = formatSearchTerm(searchTerm);
-    const wikiUrl = `https://en.wikipedia.org/wiki/${encodeURIComponent(
-      cleanSearchTerm
-    )}`;
-    console.log(wikiUrl);
+    setError(""); setSuccess(""); setResult(null); setIsLoading(true);
+    const clean = formatSearchTerm(searchTerm);
+    const wikiUrl = `https://en.wikipedia.org/wiki/${encodeURIComponent(clean)}`;
     try {
-      const response = await axios.post(`${BACKEND_URL}/start-traversal`, {
-        start_url: wikiUrl,
-      });
-
+      const response = await axios.post(`${BACKEND_URL}/start-traversal`, { start_url: wikiUrl });
       if (response.status === 200) {
         setSuccess("Traversal completed successfully!");
-        setResult({
-          ...response.data,
-          showFullPath: false, // Default to not show full path
-        });
+        setResult({ ...response.data, showFullPath: false });
       } else {
         setError("Unexpected response from the backend.");
-        setResult(response.data); // Still set result to potentially show the path
+        setResult(response.data);
       }
     } catch (err) {
-      console.error(err);
-      let errorMessage = "An error occurred during the traversal.";
-      let backendErrorData = null;
-      if (err.response && err.response.data) {
-        backendErrorData = err.response.data;
-        if (backendErrorData.error) {
-          errorMessage = backendErrorData.error;
-        }
-        setResult({ ...backendErrorData, showFullPath: false }); // Set result to display path and error details
-      } else if (err.message) {
-        errorMessage = err.message;
-      }
-      setError(errorMessage);
+      let msg = "An error occurred during the traversal.";
+      if (err.response?.data?.error) msg = err.response.data.error;
+      setError(msg);
+      setResult({ ...err.response?.data, showFullPath: false });
     } finally {
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
     }
   };
 
-  // Toggle the visibility of the full path traversed
-  const handleToggleFullPath = () => {
-    setResult((prevResult) => ({
-      ...prevResult,
-      showFullPath: !prevResult.showFullPath, // Toggle full path visibility
-    }));
+  const handleToggle = () => {
+    setResult((prev) => ({ ...prev, showFullPath: !prev.showFullPath }));
   };
+
+  // Render login panel if not authenticated
+  if (!isLoggedIn) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <LoginPanel
+          title="Sign in to Link Rule"
+          logo="https://irp.cdn-website.com/e81c109a/dms3rep/multi/orange-web3-logo-v2a-20241018.svg"
+          logoAlt="Orange Web3"
+          walletButtonText="Connect Wallet"
+          showConnectWallet={false}
+          separatorText="OR"
+          features={{
+            enableAppleLogin: true,
+            enableGoogleLogin: true,
+            enableEmailLogin: false,
+            enableWalletConnect: false,
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-palePurple text-darkPurple p-4">
+      <div className="w-full max-w-4xl mb-6 flex justify-between items-center">
+        <h1 className="text-3xl font-bold">Welcome, {user.displayName || user.name}!</h1>
+        <button
+  onClick={signOut}
+  className="bg-transparent border border-darkPurple px-4 py-2 rounded-lg hover:bg-darkPurple hover:text-white transition duration-200"
+>
+  Sign Out
+</button>
+
+      </div>
+
       {isLoading ? (
         <LoadingSpinner />
       ) : (
@@ -280,7 +286,7 @@ const HomePage = () => {
           {result && (
             <ResultDisplay
               result={result}
-              onToggleFullPath={handleToggleFullPath}
+              onToggleFullPath={handleToggle}
             />
           )}
         </>
