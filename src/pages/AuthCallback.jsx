@@ -1,27 +1,22 @@
-import React, { useEffect } from "react";
-import { useBedrockPassport } from "@bedrock_org/passport";
+// 1. AuthWrapper.jsx (prevents duplicate WalletConnect initialization)
+import { createPassportClient } from '@bedrock-labs/passport-react';
+import { useEffect, useRef } from 'react';
 
-const AuthCallback = () => {
-  const { loginCallback } = useBedrockPassport();
+let passportClient;
+
+export default function AuthWrapper({ children }) {
+  const initialized = useRef(false);
 
   useEffect(() => {
-    const login = async (token, refreshToken) => {
-      const success = await loginCallback(token, refreshToken);
-      if (success) {
-        window.location.href = "/"; // redirect home after login
-      }
-    };
-
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get("token");
-    const refreshToken = params.get("refreshToken");
-
-    if (token && refreshToken) {
-      login(token, refreshToken);
+    if (!initialized.current) {
+      passportClient = createPassportClient({
+        tenantId: "orange-liap6dojuq", // Your Project ID
+        baseUrl: "https://api.bedrockpassport.com",
+        authCallbackUrl: "https://first-link-delta.vercel.app/auth/callback"
+      });
+      initialized.current = true;
     }
-  }, [loginCallback]);
+  }, []);
 
-  return <div className="text-center p-8">Signing you in...</div>;
-};
-
-export default AuthCallback;
+  return children;
+}

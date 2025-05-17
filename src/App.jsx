@@ -1,38 +1,101 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { BedrockPassportProvider } from "@bedrock_org/passport";
-import "./App.css";
-import NavBar from "./components/NavBar";
-import AboutPage from "./pages/AboutPage";
-import ContactPage from "./pages/ContactPage";
-import HomePage from "./pages/HomePage";
-import AuthCallback from "./pages/AuthCallback";
-import { Analytics } from "@vercel/analytics/react";
+import { useState, useEffect, useRef } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { BedrockPassportProvider, usePassport, createPassportClient } from '@bedrock-labs/passport-react';
+
+// Initialize passport client once
+let passportClient;
+
+function AuthWrapper({ children }) {
+  const initialized = useRef(false);
+
+  useEffect(() => {
+    if (!initialized.current) {
+      passportClient = createPassportClient({
+        tenantId: "orange-liap6dojuq",
+        baseUrl: "https://api.bedrockpassport.com",
+        authCallbackUrl: window.location.origin + "/auth/callback"
+      });
+      initialized.current = true;
+    }
+  }, []);
+
+  return children;
+}
+
+function LoginButton() {
+  const { login } = usePassport();
+  
+  return (
+    <button 
+      onClick={() => login({ displayName: 'First Link App' })}
+      style={{
+        padding: '12px 24px',
+        background: '#ff6b35',
+        color: 'white',
+        border: 'none',
+        borderRadius: '8px',
+        cursor: 'pointer',
+        fontSize: '16px'
+      }}
+    >
+      Continue with Orange ID
+    </button>
+  );
+}
+
+function AuthCallbackHandler() {
+  const { handleAuthCallback } = usePassport();
+  const navigate = useNavigate();
+  const [authStatus, setAuthStatus] = useState('Processing...');
+
+  useEffect(() => {
+    const executeAuthCallback = async () => {
+      try {
+        await handleAuthCallback();
+        setAuthStatus('Authentication successful!');
+        setTimeout(() => navigate('/'), 2000);
+      } catch (error) {
+        console.error('Auth error:', error);
+        setAuthStatus('Authentication failed. Redirecting...');
+        setTimeout(() => navigate('/login'), 3000);
+      }
+    };
+    
+    executeAuthCallback();
+  }, [handleAuthCallback, navigate]);
+
+  return (
+    <div style={{ padding: '2rem', textAlign: 'center' }}>
+      <h3>{authStatus}</h3>
+    </div>
+  );
+}
+
+function HomePage() {
+  return (
+    <div style={{ padding: '2rem' }}>
+      <h1>Welcome to First Link</h1>
+      <p>You are successfully authenticated!</p>
+    </div>
+  );
+}
 
 function App() {
   return (
-    <BedrockPassportProvider
-      baseUrl="https://api.bedrockpassport.com"
-      authCallbackUrl="https://first-link-delta.vercel.app/auth/callback"
-      tenantId="orange-liap6dojuq"  // Your actual Orange ID tenant identifier
-      // Optional: include your WalletConnect project ID if using wallets
-      // walletConnectId="<YOUR_WALLETCONNECT_PROJECT_ID>"
-    >
-      <Router>
-        <div className="app-container">
-          <NavBar />
-          <main>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="/auth/callback" element={<AuthCallback />} />
-            </Routes>
-          </main>
-        </div>
-        <Analytics />
-      </Router>
-    </BedrockPassportProvider>
+    <Router>
+      <AuthWrapper>
+        <BedrockPassportProvider
+          client={passportClient}
+          authCallbackUrl={window.location.origin + "/auth/callback"}
+        >
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginButton />} />
+            <Route path="/auth/callback" element={<AuthCallbackHandler />} />
+          </Routes>
+        </BedrockPassportProvider>
+      </AuthWrapper>
+    </Router>
   );
 }
 

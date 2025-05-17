@@ -1,9 +1,37 @@
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  build: {
-    outDir: 'dist',  // Ensure this is where you want the build to output
-    assetsDir: 'src',  // Optionally define the assets directory for JavaScript and CSS
+  plugins: [react()],
+  server: {
+    port: 3000,
+    proxy: {
+      '/api': {
+        target: 'https://api.bedrockpassport.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+      '/auth': {
+        target: 'https://api.bedrockpassport.com',
+        changeOrigin: true,
+      }
+    }
   },
-  base: '/',  // Correct base URL for GitHub Pages
+  build: {
+    outDir: 'dist',
+    assetsDir: 'src/assets',
+    sourcemap: true, // Recommended for debugging
+    rollupOptions: {
+      output: {
+        assetFileNames: 'src/assets/[name]-[hash][extname]'
+      }
+    }
+  },
+  base: './', // Relative paths for GH Pages
+  define: {
+    'process.env': {
+      VITE_ORANGE_PROJECT_ID: JSON.stringify('orange-liap6dojuq'),
+      VITE_BASE_API_URL: JSON.stringify('https://api.bedrockpassport.com')
+    }
+  }
 });
