@@ -4,8 +4,6 @@
 
 An interactive full‑stack application that demonstrates Wikipedia traversal based on the “First Link Rule” — the observation that repeatedly clicking the first link in the main text of a Wikipedia article often leads to the *Philosophy* page.
 
-[Live Demo](https://first-link-delta.vercel.app)
-
 ---
 
 ## Table of Contents
@@ -63,7 +61,7 @@ An interactive full‑stack application that demonstrates Wikipedia traversal ba
 ## Repositories
 
 * **Frontend**: [https://github.com/190-785/First\_Link](https://github.com/190-785/First_Link)
-* **Backend**: [https://github.com/190-785/First\_Link\_Backend](https://github.com/190-785/First_Link_Backend)
+* **Backend**: [https://github.com/190-785/Wikipedia_Path_Finder](https://github.com/190-785/Wikipedia_Path_Finder)
 
 ---
 
